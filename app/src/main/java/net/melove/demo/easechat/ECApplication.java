@@ -56,12 +56,10 @@ public class ECApplication extends Application {
         options.setAutoLogin(true);
         // 设置是否需要发送已读回执
         options.setRequireAck(true);
-        // 设置是否需要发送回执，TODO 这个暂时有bug
+        // 设置是否需要发送回执，TODO 这个暂时有bug，上层收不到发送回执
         options.setRequireDeliveryAck(true);
         // 设置是否需要服务器收到消息确认
         options.setRequireServerAck(true);
-        // TODO 设置初始化数据库DB时，每个会话要加载的Message数量，这个在后期会删除
-        // options.setNumberOfMessagesLoaded(1);
         // 收到好友申请是否自动同意，如果是自动同意就不会收到好友请求的回调，因为sdk会自动处理，默认为true
         options.setAcceptInvitationAlways(false);
         // 设置是否自动接收加群邀请，如果设置了当收到群邀请会自动同意加入
@@ -98,10 +96,7 @@ public class ECApplication extends Application {
             ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
             try {
                 if (info.pid == pid) {
-                    CharSequence c = pm.getApplicationLabel(pm.getApplicationInfo(info.processName, PackageManager.GET_META_DATA));
-                    // Log.d("Process", "Id: "+ info.pid +" ProcessName: "+
-                    // info.processName +"  Label: "+c.toString());
-                    // processName = c.toString();
+                    // 根据进程的信息获取当前进程的名字
                     processName = info.processName;
                     return processName;
                 }
