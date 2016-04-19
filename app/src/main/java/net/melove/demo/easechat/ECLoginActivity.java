@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -96,6 +97,10 @@ public class ECLoginActivity extends AppCompatActivity {
                             if (!ECLoginActivity.this.isFinishing()) {
                                 mDialog.dismiss();
                             }
+                            /**
+                             * 关于错误码可以参考官方api详细说明
+                             * http://www.easemob.com/apidoc/android/chat3.0/classcom_1_1hyphenate_1_1_e_m_error.html
+                             */
                             int errorCode = e.getErrorCode();
                             String message = e.getMessage();
                             Log.d("lzan13", String.format("sign up - errorCode:%d, errorMsg:%s", errorCode, e.getMessage()));
@@ -141,6 +146,10 @@ public class ECLoginActivity extends AppCompatActivity {
         mDialog.show();
         String username = mUsernameEdit.getText().toString().trim();
         String password = mPasswordEdit.getText().toString().trim();
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+            Toast.makeText(ECLoginActivity.this, "用户名和密码不能为空", Toast.LENGTH_LONG).show();
+            return;
+        }
         EMClient.getInstance().login(username, password, new EMCallBack() {
             /**
              * 登陆成功的回调

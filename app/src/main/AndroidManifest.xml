@@ -40,15 +40,6 @@
     <!-- 读取联系人 -->
     <!--<uses-permission android:name="android.permission.READ_CONTACTS"/>-->
 
-    <!-- Demo新添加的一些属性 -->
-    <!-- 访问GMail账户列表 -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <!-- 使用证书 -->
-    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
-    <!-- 管理账户 -->
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-    <!-- 验证账户 -->
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <!-- 连续广播（允许一个程序收到广播后快速收到下一个广播） -->
     <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
 
@@ -68,7 +59,9 @@
         </activity>
         <activity android:name=".ECLoginActivity">
         </activity>
-        <activity android:name=".ECChatActivity">
+        <activity
+            android:name=".ECChatActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden">
         </activity>
 
 

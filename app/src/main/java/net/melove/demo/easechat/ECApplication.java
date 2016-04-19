@@ -17,8 +17,10 @@ import java.util.List;
  */
 public class ECApplication extends Application {
 
+    // 上下文菜单
     private Context mContext;
 
+    // 记录是否已经初始化
     private boolean isInit = false;
 
     @Override
@@ -26,9 +28,13 @@ public class ECApplication extends Application {
         super.onCreate();
         mContext = this;
 
+        // 初始化环信SDK
         initEasemob();
     }
 
+    /**
+     *
+     */
     private void initEasemob() {
         // 获取当前进程 id 并取得进程名
         int pid = android.os.Process.myPid();
@@ -45,9 +51,10 @@ public class ECApplication extends Application {
         if (isInit) {
             return;
         }
-
         /**
          * SDK初始化的一些配置
+         * 关于 EMOptions 可以参考官方的 API 文档
+         * http://www.easemob.com/apidoc/android/chat3.0/classcom_1_1hyphenate_1_1chat_1_1_e_m_options.html
          */
         EMOptions options = new EMOptions();
         // 设置Appkey，如果配置文件已经配置，这里可以不用设置
@@ -78,6 +85,9 @@ public class ECApplication extends Application {
 
         // 设置开启debug模式
         EMClient.getInstance().setDebugMode(true);
+
+        // 设置初始化已经完成
+        isInit = true;
     }
 
     /**
@@ -91,19 +101,20 @@ public class ECApplication extends Application {
         ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         List list = activityManager.getRunningAppProcesses();
         Iterator i = list.iterator();
-        PackageManager pm = mContext.getPackageManager();
         while (i.hasNext()) {
             ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
             try {
                 if (info.pid == pid) {
                     // 根据进程的信息获取当前进程的名字
                     processName = info.processName;
+                    // 返回当前进程名
                     return processName;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return processName;
+        // 没有匹配的项，返回为null
+        return null;
     }
 }
