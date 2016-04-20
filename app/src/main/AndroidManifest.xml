@@ -85,7 +85,5 @@
                 <action android:name="android.intent.action.USER_PRESENT"/>
             </intent-filter>
         </receiver>
-
     </application>
-
 </manifest>
