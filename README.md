@@ -5,7 +5,7 @@
 这里简单的实现了sdk的初始化以及注册登录和收发消息，不过ui上没有没有去做很好的处理
 
 ### 先看效果图
-![ec-demo](./screenshot/ec-demo.git)
+![ec-demo](screenshot/ec-demo.git)
 
 ### 提供一些地址
 * 当前项目地址，可以直接 clone 运行
