@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         applicationId "net.melove.demo.easechat"
@@ -19,7 +19,7 @@ android {
     }
     sourceSets {
         main {
-            // 设置Jni so文件路径 如果有jniLibs目录就不需要设置
+            // 设置Jni so文件路径 如果有jniLibs目录就不需要设置，好像手动创建的 jniLibs目录无效
             jniLibs.srcDirs = ['libs']
         }
     }
@@ -28,5 +28,5 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile files('libs/hyphenatechat_3.1.1.jar')
+    compile files('libs/hyphenatechat_3.1.4.jar')
 }

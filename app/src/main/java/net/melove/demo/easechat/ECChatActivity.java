@@ -73,7 +73,7 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
                     // 创建一条新消息，第一个参数为消息内容，第二个为接受者username
                     EMMessage message = EMMessage.createTxtSendMessage(content, mChatId);
                     // 将新的消息内容和时间加入到下边
-                    mContentText.setText(mContentText.getText() + "\n" + content + " -> " + message.getMsgTime());
+                    mContentText.setText(mContentText.getText() + "\n发送：" + content + " - time: " + message.getMsgTime());
                     // 调用发送消息的方法
                     EMClient.getInstance().chatManager().sendMessage(message);
                     // 为消息设置回调
@@ -126,7 +126,7 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
             EMMessage messge = mConversation.getLastMessage();
             EMTextMessageBody body = (EMTextMessageBody) messge.getBody();
             // 将消息内容和时间显示出来
-            mContentText.setText(body.getMessage() + " - " + mConversation.getLastMessage().getMsgTime());
+            mContentText.setText("聊天记录：" + body.getMessage() + " - time: " + mConversation.getLastMessage().getMsgTime());
         }
     }
 
@@ -142,7 +142,7 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
                 // 这里只是简单的demo，也只是测试文字消息的收发，所以直接将body转为EMTextMessageBody去获取内容
                 EMTextMessageBody body = (EMTextMessageBody) message.getBody();
                 // 将新的消息内容和时间加入到下边
-                mContentText.setText(mContentText.getText() + "\n" + body.getMessage() + " <- " + message.getMsgTime());
+                mContentText.setText(mContentText.getText() + "\n接收：" + body.getMessage() + " - time: " + message.getMsgTime());
                 break;
             }
         }

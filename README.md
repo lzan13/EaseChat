@@ -8,8 +8,13 @@
 ![ec-demo](./screenshot/ec-demo.gif)    
 
 ### 提供一些地址  
+
+* 项目详细介绍
+[项目详细介绍](http://www.jianshu.com/p/3e732f45d376)  
+
 * 当前项目地址，可以直接 clone 运行  
 [EaseChat Github](https://github.com/lzan13/EaseChat)   
+
 
 * AndroidStudio下载   
 [Android官方下载](http://tools.android.com/download/studio/builds/2-0)  
@@ -26,12 +31,13 @@
 
 ### 说下我当前开发环境
 这里并不是一定要按照我的配置来，只是说下当前项目开发运行的环境，如果你的开发环境不同可能需要自己修改下项目配置`build.gradle`文件 
->AndroidStudio 2.0  
+>AndroidStudio 2.1.2  
 Gradle 2.10（跟随AndroidStudio 一起更新）   
-Android SDK Tool 25.1.1 
-Android Build-tools 23.0.2  
+Android SDK Tool 25.1.2 
+Android Build-tools 24.0.1  
 Android Support 最新  
-Genymotion 2.6  
+Genymotion 2.7.2  
 
 如果你还是用的`Eclipse`，可以下载`AndroidStudio`尝试下，如果你上不了`Android`官网，不懂怎么翻墙可以找下国内开发提供的一些地址
+
 
