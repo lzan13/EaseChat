@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 
 public class ECMainActivity extends AppCompatActivity {
 
@@ -62,7 +63,9 @@ public class ECMainActivity extends AppCompatActivity {
                     }
                     // 跳转到聊天界面，开始聊天
                     Intent intent = new Intent(ECMainActivity.this, ECChatActivity.class);
-                    intent.putExtra("ec_chat_id", chatId);
+                    // EaseUI封装的聊天界面需要这两个参数，聊天者的username，以及聊天类型，单聊还是群聊
+                    intent.putExtra("userId", chatId);
+                    intent.putExtra("chatType", EMMessage.ChatType.Chat);
                     startActivity(intent);
                 } else {
                     Toast.makeText(ECMainActivity.this, "Username 不能为空", Toast.LENGTH_LONG).show();

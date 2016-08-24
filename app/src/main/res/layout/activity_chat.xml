@@ -4,40 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="net.melove.demo.easechat.ECChatActivity">
 
-    <!--输入框-->
-    <RelativeLayout
-        android:id="@+id/ec_layout_input"
+    <!--控件集装箱，用来替换聊天界面-->
+    <FrameLayout
+        android:id="@+id/ec_layout_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/ec_btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Send"/>
-
-        <EditText
-            android:id="@+id/ec_edit_message_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/ec_btn_send"/>
-    </RelativeLayout>
-
-    <!--展示消息内容-->
-    <TextView
-        android:id="@+id/ec_text_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/ec_layout_input"
-        android:maxLines="15"
-        android:scrollbars="vertical"/>
+    </FrameLayout>
 </RelativeLayout>

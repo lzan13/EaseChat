@@ -28,5 +28,5 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile files('libs/hyphenatechat_3.1.4.jar')
+    compile project(':easeui')
 }

@@ -36,7 +36,7 @@ Gradle 2.10（跟随AndroidStudio 一起更新）
 Android SDK Tool 25.1.2 
 Android Build-tools 24.0.1  
 Android Support 最新  
-Genymotion 2.7.2  
+Genymotion 2.6.0  
 
 如果你还是用的`Eclipse`，可以下载`AndroidStudio`尝试下，如果你上不了`Android`官网，不懂怎么翻墙可以找下国内开发提供的一些地址
 

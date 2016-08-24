@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.hyphenate.easeui.controller.EaseUI;
 
 import java.util.Iterator;
 import java.util.List;
@@ -33,33 +34,20 @@ public class ECApplication extends Application {
     }
 
     /**
-     *
+     * 初始化环信SDK
      */
     private void initEasemob() {
-        // 获取当前进程 id 并取得进程名
-        int pid = android.os.Process.myPid();
-        String processAppName = getAppName(pid);
-        /**
-         * 如果app启用了远程的service，此application:onCreate会被调用2次
-         * 为了防止环信SDK被初始化2次，加此判断会保证SDK被初始化1次
-         * 默认的app会在以包名为默认的process name下运行，如果查到的process name不是app的process name就立即返回
-         */
-        if (processAppName == null || !processAppName.equalsIgnoreCase(mContext.getPackageName())) {
-            // 则此application的onCreate 是被service 调用的，直接返回
-            return;
-        }
-        if (isInit) {
-            return;
+
+        if (EaseUI.getInstance().init(mContext, initOptions())) {
+
+            // 设置开启debug模式
+            EMClient.getInstance().setDebugMode(true);
+
+            // 设置初始化已经完成
+            isInit = true;
         }
 
-        // 调用初始化方法初始化sdk
-        EMClient.getInstance().init(mContext, initOptions());
 
-        // 设置开启debug模式
-        EMClient.getInstance().setDebugMode(true);
-
-        // 设置初始化已经完成
-        isInit = true;
     }
 
     /**
@@ -98,31 +86,4 @@ public class ECApplication extends Application {
         return options;
     }
 
-    /**
-     * 根据Pid获取当前进程的名字，一般就是当前app的包名
-     *
-     * @param pid 进程的id
-     * @return 返回进程的名字
-     */
-    private String getAppName(int pid) {
-        String processName = null;
-        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        List list = activityManager.getRunningAppProcesses();
-        Iterator i = list.iterator();
-        while (i.hasNext()) {
-            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
-            try {
-                if (info.pid == pid) {
-                    // 根据进程的信息获取当前进程的名字
-                    processName = info.processName;
-                    // 返回当前进程名
-                    return processName;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        // 没有匹配的项，返回为null
-        return null;
-    }
 }
