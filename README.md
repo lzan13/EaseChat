@@ -8,7 +8,7 @@
 
 
 ### 先看效果图   
-![ec-demo](./screenshot/ec-demo.gif)    
+![ec-demo](./screenshot/ec-easeui-demo.gif)    
 
 ### 提供一些地址  
 
