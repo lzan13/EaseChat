@@ -38,4 +38,4 @@ Genymotion 2.6.0
 
 
 * 项目详细介绍
-[项目文章详细介绍](http://www.jianshu.com/p/3e732f45d376)  
+[PPT文档README版](./ppt.md)
