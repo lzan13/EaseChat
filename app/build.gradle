@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "24.0.1"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
 
     defaultConfig {
         applicationId "net.melove.demo.easechat"
@@ -27,6 +27,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile files('libs/hyphenatechat_3.1.4.jar')
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile files('libs/hyphenatechat_3.2.0.jar')
 }
