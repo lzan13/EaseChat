@@ -22,9 +22,7 @@ public class ECMainActivity extends AppCompatActivity {
     // 退出登录
     private Button mSignOutBtn;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // 判断sdk是否登录成功过，并没有退出和被踢，否则跳转到登陆界面
@@ -45,12 +43,11 @@ public class ECMainActivity extends AppCompatActivity {
      */
     private void initView() {
 
-        mChatIdEdit = (EditText) findViewById(R.id.ec_edit_chat_id);
+        mChatIdEdit = findViewById(R.id.ec_edit_chat_id);
 
-        mStartChatBtn = (Button) findViewById(R.id.ec_btn_start_chat);
+        mStartChatBtn = findViewById(R.id.ec_btn_start_chat);
         mStartChatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            @Override public void onClick(View v) {
                 // 获取我们发起聊天的者的username
                 String chatId = mChatIdEdit.getText().toString().trim();
                 if (!TextUtils.isEmpty(chatId)) {
@@ -70,10 +67,9 @@ public class ECMainActivity extends AppCompatActivity {
             }
         });
 
-        mSignOutBtn = (Button) findViewById(R.id.ec_btn_sign_out);
+        mSignOutBtn = findViewById(R.id.ec_btn_sign_out);
         mSignOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            @Override public void onClick(View v) {
                 signOut();
             }
         });
@@ -85,20 +81,17 @@ public class ECMainActivity extends AppCompatActivity {
     private void signOut() {
         // 调用sdk的退出登录方法，第一个参数表示是否解绑推送的token，没有使用推送或者被踢都要传false
         EMClient.getInstance().logout(false, new EMCallBack() {
-            @Override
-            public void onSuccess() {
+            @Override public void onSuccess() {
                 Log.i("lzan13", "logout success");
                 // 调用退出成功，结束app
                 finish();
             }
 
-            @Override
-            public void onError(int i, String s) {
+            @Override public void onError(int i, String s) {
                 Log.i("lzan13", "logout error " + i + " - " + s);
             }
 
-            @Override
-            public void onProgress(int i, String s) {
+            @Override public void onProgress(int i, String s) {
 
             }
         });

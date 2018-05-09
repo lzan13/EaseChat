@@ -23,8 +23,7 @@ public class ECApplication extends Application {
     // 记录是否已经初始化
     private boolean isInit = false;
 
-    @Override
-    public void onCreate() {
+    @Override public void onCreate() {
         super.onCreate();
         mContext = this;
 
@@ -54,7 +53,6 @@ public class ECApplication extends Application {
 
         // 调用初始化方法初始化sdk
         EMClient.getInstance().init(mContext, initOptions());
-
         // 设置开启debug模式
         EMClient.getInstance().setDebugMode(true);
 
@@ -78,8 +76,6 @@ public class ECApplication extends Application {
         options.setRequireAck(true);
         // 设置是否需要发送回执，
         options.setRequireDeliveryAck(true);
-        // 设置是否需要服务器收到消息确认
-        options.setRequireServerAck(true);
         // 设置是否根据服务器时间排序，默认是true
         options.setSortMessageByServerTime(false);
         // 收到好友申请是否自动同意，如果是自动同意就不会收到好友请求的回调，因为sdk会自动处理，默认为true
@@ -106,11 +102,13 @@ public class ECApplication extends Application {
      */
     private String getAppName(int pid) {
         String processName = null;
-        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager =
+            (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         List list = activityManager.getRunningAppProcesses();
         Iterator i = list.iterator();
         while (i.hasNext()) {
-            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
+            ActivityManager.RunningAppProcessInfo info =
+                (ActivityManager.RunningAppProcessInfo) (i.next());
             try {
                 if (info.pid == pid) {
                     // 根据进程的信息获取当前进程的名字

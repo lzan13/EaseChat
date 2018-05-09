@@ -39,9 +39,7 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
     // 当前会话对象
     private EMConversation mConversation;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -65,33 +63,33 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
 
         // 设置发送按钮的点击事件
         mSendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            @Override public void onClick(View v) {
                 String content = mInputEdit.getText().toString().trim();
                 if (!TextUtils.isEmpty(content)) {
                     mInputEdit.setText("");
                     // 创建一条新消息，第一个参数为消息内容，第二个为接受者username
                     EMMessage message = EMMessage.createTxtSendMessage(content, mChatId);
                     // 将新的消息内容和时间加入到下边
-                    mContentText.setText(mContentText.getText() + "\n发送：" + content + " - time: " + message.getMsgTime());
+                    mContentText.setText(mContentText.getText()
+                        + "\n发送："
+                        + content
+                        + " - time: "
+                        + message.getMsgTime());
                     // 调用发送消息的方法
                     EMClient.getInstance().chatManager().sendMessage(message);
                     // 为消息设置回调
                     message.setMessageStatusCallback(new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
+                        @Override public void onSuccess() {
                             // 消息发送成功，打印下日志，正常操作应该去刷新ui
                             Log.i("lzan13", "send message on success");
                         }
 
-                        @Override
-                        public void onError(int i, String s) {
+                        @Override public void onError(int i, String s) {
                             // 消息发送失败，打印下失败的信息，正常操作应该去刷新ui
                             Log.i("lzan13", "send message on error " + i + " - " + s);
                         }
 
-                        @Override
-                        public void onProgress(int i, String s) {
+                        @Override public void onProgress(int i, String s) {
                             // 消息发送进度，一般只有在发送图片和文件等消息才会有回调，txt不回调
                         }
                     });
@@ -126,7 +124,9 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
             EMMessage messge = mConversation.getLastMessage();
             EMTextMessageBody body = (EMTextMessageBody) messge.getBody();
             // 将消息内容和时间显示出来
-            mContentText.setText("聊天记录：" + body.getMessage() + " - time: " + mConversation.getLastMessage().getMsgTime());
+            mContentText.setText(
+                "聊天记录：" + body.getMessage() + " - time: " + mConversation.getLastMessage()
+                    .getMsgTime());
         }
     }
 
@@ -134,29 +134,30 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
      * 自定义实现Handler，主要用于刷新UI操作
      */
     Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
+        @Override public void handleMessage(Message msg) {
             switch (msg.what) {
             case 0:
                 EMMessage message = (EMMessage) msg.obj;
                 // 这里只是简单的demo，也只是测试文字消息的收发，所以直接将body转为EMTextMessageBody去获取内容
                 EMTextMessageBody body = (EMTextMessageBody) message.getBody();
                 // 将新的消息内容和时间加入到下边
-                mContentText.setText(mContentText.getText() + "\n接收：" + body.getMessage() + " - time: " + message.getMsgTime());
+                mContentText.setText(mContentText.getText()
+                    + "\n接收："
+                    + body.getMessage()
+                    + " - time: "
+                    + message.getMsgTime());
                 break;
             }
         }
     };
 
-    @Override
-    protected void onResume() {
+    @Override protected void onResume() {
         super.onResume();
         // 添加消息监听
         EMClient.getInstance().chatManager().addMessageListener(mMessageListener);
     }
 
-    @Override
-    protected void onStop() {
+    @Override protected void onStop() {
         super.onStop();
         // 移除消息监听
         EMClient.getInstance().chatManager().removeMessageListener(mMessageListener);
@@ -170,10 +171,10 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
      *
      * @param list 收到的新消息集合
      */
-    @Override
-    public void onMessageReceived(List<EMMessage> list) {
+    @Override public void onMessageReceived(List<EMMessage> list) {
         // 循环遍历当前收到的消息
         for (EMMessage message : list) {
+            Log.i("lzan13", "收到新消息:" + message);
             if (message.getFrom().equals(mChatId)) {
                 // 设置消息为已读
                 mConversation.markMessageAsRead(message.getMsgId());
@@ -184,23 +185,20 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
                 msg.obj = message;
                 mHandler.sendMessage(msg);
             } else {
-                // 如果消息不是当前会话的消息发送通知栏通知
+                // TODO 如果消息不是当前会话的消息发送通知栏通知
             }
         }
     }
 
     /**
      * 收到新的 CMD 消息
-     *
-     * @param list
      */
-    @Override
-    public void onCmdMessageReceived(List<EMMessage> list) {
+    @Override public void onCmdMessageReceived(List<EMMessage> list) {
         for (int i = 0; i < list.size(); i++) {
             // 透传消息
             EMMessage cmdMessage = list.get(i);
             EMCmdMessageBody body = (EMCmdMessageBody) cmdMessage.getBody();
-            Log.i("lzan13", body.action());
+            Log.i("lzan13", "收到 CMD 透传消息" + body.action());
         }
     }
 
@@ -209,9 +207,7 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
      *
      * @param list 收到消息已读回执
      */
-    @Override
-    public void onMessageReadAckReceived(List<EMMessage> list) {
-    }
+    @Override public void onMessageRead(List<EMMessage> list) {}
 
     /**
      * 收到新的发送回执
@@ -219,17 +215,20 @@ public class ECChatActivity extends AppCompatActivity implements EMMessageListen
      *
      * @param list 收到发送回执的消息集合
      */
-    @Override
-    public void onMessageDeliveryAckReceived(List<EMMessage> list) {
-    }
+    @Override public void onMessageDelivered(List<EMMessage> list) {}
+
+    /**
+     * 消息撤回回调
+     *
+     * @param list 撤回的消息列表
+     */
+    @Override public void onMessageRecalled(List<EMMessage> list) {}
 
     /**
      * 消息的状态改变
      *
      * @param message 发生改变的消息
-     * @param object  包含改变的消息
+     * @param object 包含改变的消息
      */
-    @Override
-    public void onMessageChanged(EMMessage message, Object object) {
-    }
+    @Override public void onMessageChanged(EMMessage message, Object object) {}
 }

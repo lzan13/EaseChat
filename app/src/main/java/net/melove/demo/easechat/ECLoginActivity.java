@@ -17,23 +17,18 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 
 public class ECLoginActivity extends AppCompatActivity {
-
     // 弹出框
     private ProgressDialog mDialog;
-
     // username 输入框
     private EditText mUsernameEdit;
     // 密码输入框
     private EditText mPasswordEdit;
-
     // 注册按钮
     private Button mSignUpBtn;
     // 登录按钮
     private Button mSignInBtn;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -44,21 +39,19 @@ public class ECLoginActivity extends AppCompatActivity {
      * 初始化界面控件
      */
     private void initView() {
-        mUsernameEdit = (EditText) findViewById(R.id.ec_edit_username);
-        mPasswordEdit = (EditText) findViewById(R.id.ec_edit_password);
+        mUsernameEdit = findViewById(R.id.ec_edit_username);
+        mPasswordEdit = findViewById(R.id.ec_edit_password);
 
-        mSignUpBtn = (Button) findViewById(R.id.ec_btn_sign_up);
+        mSignUpBtn = findViewById(R.id.ec_btn_sign_up);
         mSignUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            @Override public void onClick(View v) {
                 signUp();
             }
         });
 
-        mSignInBtn = (Button) findViewById(R.id.ec_btn_sign_in);
+        mSignInBtn = findViewById(R.id.ec_btn_sign_in);
         mSignInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            @Override public void onClick(View v) {
                 signIn();
             }
         });
@@ -74,15 +67,13 @@ public class ECLoginActivity extends AppCompatActivity {
         mDialog.show();
 
         new Thread(new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 try {
                     String username = mUsernameEdit.getText().toString().trim();
                     String password = mPasswordEdit.getText().toString().trim();
                     EMClient.getInstance().createAccount(username, password);
                     runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                        @Override public void run() {
                             if (!ECLoginActivity.this.isFinishing()) {
                                 mDialog.dismiss();
                             }
@@ -92,8 +83,7 @@ public class ECLoginActivity extends AppCompatActivity {
                 } catch (final HyphenateException e) {
                     e.printStackTrace();
                     runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                        @Override public void run() {
                             if (!ECLoginActivity.this.isFinishing()) {
                                 mDialog.dismiss();
                             }
@@ -103,29 +93,45 @@ public class ECLoginActivity extends AppCompatActivity {
                              */
                             int errorCode = e.getErrorCode();
                             String message = e.getMessage();
-                            Log.d("lzan13", String.format("sign up - errorCode:%d, errorMsg:%s", errorCode, e.getMessage()));
+                            Log.d("lzan13",
+                                String.format("sign up - errorCode:%d, errorMsg:%s", errorCode,
+                                    e.getMessage()));
                             switch (errorCode) {
                             // 网络错误
                             case EMError.NETWORK_ERROR:
-                                Toast.makeText(ECLoginActivity.this, "网络错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ECLoginActivity.this,
+                                    "网络错误 code: " + errorCode + ", message:" + message,
+                                    Toast.LENGTH_LONG).show();
                                 break;
                             // 用户已存在
                             case EMError.USER_ALREADY_EXIST:
-                                Toast.makeText(ECLoginActivity.this, "用户已存在 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ECLoginActivity.this,
+                                    "用户已存在 code: " + errorCode + ", message:" + message,
+                                    Toast.LENGTH_LONG).show();
                                 break;
                             // 参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册
                             case EMError.USER_ILLEGAL_ARGUMENT:
-                                Toast.makeText(ECLoginActivity.this, "参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ECLoginActivity.this,
+                                    "参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册 code: "
+                                        + errorCode
+                                        + ", message:"
+                                        + message, Toast.LENGTH_LONG).show();
                                 break;
                             // 服务器未知错误
                             case EMError.SERVER_UNKNOWN_ERROR:
-                                Toast.makeText(ECLoginActivity.this, "服务器未知错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ECLoginActivity.this,
+                                    "服务器未知错误 code: " + errorCode + ", message:" + message,
+                                    Toast.LENGTH_LONG).show();
                                 break;
                             case EMError.USER_REG_FAILED:
-                                Toast.makeText(ECLoginActivity.this, "账户注册失败 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ECLoginActivity.this,
+                                    "账户注册失败 code: " + errorCode + ", message:" + message,
+                                    Toast.LENGTH_LONG).show();
                                 break;
                             default:
-                                Toast.makeText(ECLoginActivity.this, "ml_sign_up_failed code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ECLoginActivity.this,
+                                    "ml_sign_up_failed code: " + errorCode + ", message:" + message,
+                                    Toast.LENGTH_LONG).show();
                                 break;
                             }
                         }
@@ -154,18 +160,14 @@ public class ECLoginActivity extends AppCompatActivity {
             /**
              * 登陆成功的回调
              */
-            @Override
-            public void onSuccess() {
+            @Override public void onSuccess() {
                 runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+                    @Override public void run() {
                         mDialog.dismiss();
-
                         // 加载所有会话到内存
                         EMClient.getInstance().chatManager().loadAllConversations();
                         // 加载所有群组到内存，如果使用了群组的话
                         // EMClient.getInstance().groupManager().loadAllGroups();
-
                         // 登录成功跳转界面
                         Intent intent = new Intent(ECLoginActivity.this, ECMainActivity.class);
                         startActivity(intent);
@@ -179,11 +181,9 @@ public class ECLoginActivity extends AppCompatActivity {
              * @param i
              * @param s
              */
-            @Override
-            public void onError(final int i, final String s) {
+            @Override public void onError(final int i, final String s) {
                 runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+                    @Override public void run() {
                         mDialog.dismiss();
                         Log.d("lzan13", "登录失败 Error code:" + i + ", message:" + s);
                         /**
@@ -193,50 +193,62 @@ public class ECLoginActivity extends AppCompatActivity {
                         switch (i) {
                         // 网络异常 2
                         case EMError.NETWORK_ERROR:
-                            Toast.makeText(ECLoginActivity.this, "网络错误 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "网络错误 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
                             break;
                         // 无效的用户名 101
                         case EMError.INVALID_USER_NAME:
-                            Toast.makeText(ECLoginActivity.this, "无效的用户名 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "无效的用户名 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
                             break;
                         // 无效的密码 102
                         case EMError.INVALID_PASSWORD:
-                            Toast.makeText(ECLoginActivity.this, "无效的密码 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "无效的密码 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
                             break;
                         // 用户认证失败，用户名或密码错误 202
                         case EMError.USER_AUTHENTICATION_FAILED:
-                            Toast.makeText(ECLoginActivity.this, "用户认证失败，用户名或密码错误 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "用户认证失败，用户名或密码错误 code: " + i + ", message:" + s, Toast.LENGTH_LONG)
+                                .show();
                             break;
                         // 用户不存在 204
                         case EMError.USER_NOT_FOUND:
-                            Toast.makeText(ECLoginActivity.this, "用户不存在 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "用户不存在 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
                             break;
                         // 无法访问到服务器 300
                         case EMError.SERVER_NOT_REACHABLE:
-                            Toast.makeText(ECLoginActivity.this, "无法访问到服务器 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "无法访问到服务器 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
                             break;
                         // 等待服务器响应超时 301
                         case EMError.SERVER_TIMEOUT:
-                            Toast.makeText(ECLoginActivity.this, "等待服务器响应超时 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "等待服务器响应超时 code: " + i + ", message:" + s, Toast.LENGTH_LONG)
+                                .show();
                             break;
                         // 服务器繁忙 302
                         case EMError.SERVER_BUSY:
-                            Toast.makeText(ECLoginActivity.this, "服务器繁忙 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "服务器繁忙 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
                             break;
                         // 未知 Server 异常 303 一般断网会出现这个错误
                         case EMError.SERVER_UNKNOWN_ERROR:
-                            Toast.makeText(ECLoginActivity.this, "未知的服务器异常 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "未知的服务器异常 code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
                             break;
                         default:
-                            Toast.makeText(ECLoginActivity.this, "ml_sign_in_failed code: " + i + ", message:" + s, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ECLoginActivity.this,
+                                "ml_sign_in_failed code: " + i + ", message:" + s,
+                                Toast.LENGTH_LONG).show();
                             break;
                         }
                     }
                 });
             }
 
-            @Override
-            public void onProgress(int i, String s) {
+            @Override public void onProgress(int i, String s) {
 
             }
         });
